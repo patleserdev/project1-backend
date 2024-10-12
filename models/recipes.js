@@ -18,6 +18,7 @@ const recipeSchema = new Schema({
     pictures:[String],
     timeToCook:Number,
     timeToPrepare:Number,
+    time:Number,
     difficulty:Number
 });
 
