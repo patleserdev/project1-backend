@@ -6,6 +6,7 @@ const ingredientsSchema = new Schema({
     
     ing:  {type: mongoose.ObjectId, ref: 'IngredientCategorie' },
     mesure: {type: mongoose.ObjectId, ref: 'Mesure' },
+    quantity: Number,
 });
 
 
