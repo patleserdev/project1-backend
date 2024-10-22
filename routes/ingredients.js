@@ -10,9 +10,12 @@ const IngredientCategorie = require('../models/ingredientsCategories');
  */
 router.get('/', async (req, res) => {
 
-    const ingredients = await Ingredient.find({})
+    const ingredients = await Ingredient.find({}).populate('categorie')
 
-    res.json({ result: true, data: ingredients })
+    const formattedDatas=[]
+    ingredients.map((ingredient)=> formattedDatas.push({name: ingredient.name,picture:ingredient.picture,categorie:ingredient.categorie.name}))
+
+    res.json({ result: true, data: formattedDatas })
 
 })
 
@@ -51,18 +54,28 @@ router.post('/new', async (req, res) => {
     if (!categorie) {
         return res.json({ result: false, error: "Catégorie inconnue" })
     }
+
+    
     const newIngredient = new Ingredient({
         name: req.body.name,
         categorie: categorie._id,
-        picture: req.body.picture | null
+        picture: req.body.picture
     })
-    const addIngredient = await newIngredient.save()
-    if (addIngredient) {
-        res.json({ result: true })
+    try
+    {
+        const addIngredient = await newIngredient.save()
+        if (addIngredient) {
+            res.json({ result: true })
+        }
+        else {
+            res.json({ result: false, error: "Erreur lors de l'ajout de l'ingrédient." })
+        }
     }
-    else {
-        res.json({ result: false, error: "Erreur lors de l'ajout de l'ingrédient." })
+    catch(e)
+    {
+        res.json({ result: false,error:e.errmsg })
     }
+    
 })
 
 /**
