@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 /**
  *  Ajouter une mesure
  */
-router.post('/new', async (req, res) => {
+router.post('/', async (req, res) => {
 
     if (!checkBody(req.body, ['name', 'unit'])) {
         return res.json({ result: false, error: "Champs manquants ou invalides" })
@@ -46,7 +46,7 @@ router.post('/new', async (req, res) => {
 /**
  *  Editer une mesure
  */
-router.put('/edit/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
 
     if (!checkBody(req.body, ['name', 'unit'])) {
         return res.json({ result: false, error: "Champs manquants ou invalides" })

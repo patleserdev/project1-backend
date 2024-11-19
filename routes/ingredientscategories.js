@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 /**
  *  Ajouter une catégorie d'ingrédients
  */
-router.post('/new', async (req, res) => {
+router.post('/', async (req, res) => {
 
     if (!checkBody(req.body, ['name', 'description'])) {
         return res.json({ result: false, error: "Champs manquants ou invalides" })
@@ -44,22 +44,15 @@ router.post('/new', async (req, res) => {
 /**
  *  Editer une catégorie d'ingrédients
  */
-router.put('/edit/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
 
     if (!checkBody(req.body, ['name', 'description'])) {
         return res.json({ result: false, error: "Champs manquants ou invalides" })
     }
 
 
-    const categorie = await IngredientCategorie.findByIdAndUpdate(req.params.id , { name: req.body.name,description:req.body.description },
-        function (err, docs) {
-            if (err){
-            console.log(err)
-            }
-            else{
-            console.log("Catégorie modifiée: ", docs);
-            }
-            });
+    const categorie = await IngredientCategorie.findByIdAndUpdate(req.params.id , { name: req.body.name,description:req.body.description })
+      
 
     const updateCategorie = await categorie.save()
     if (updateCategorie) {

@@ -16,6 +16,7 @@ const recipeSchema = new Schema({
     ingredients:  [ingredientsSchema],
     steps:[String],
     pictures:[String],
+    recipeCategorie:  {type: mongoose.ObjectId, ref: 'RecipeCategorie' },
     timeToCook:Number,
     timeToPrepare:Number,
     time:Number,

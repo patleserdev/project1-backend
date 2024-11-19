@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     const ingredients = await Ingredient.find({}).populate('categorie')
 
     const formattedDatas=[]
-    ingredients.map((ingredient)=> formattedDatas.push({name: ingredient.name,picture:ingredient.picture,categorie:ingredient.categorie.name}))
+    ingredients.map((ingredient)=> formattedDatas.push({id:ingredient._id,name: ingredient.name,picture:ingredient.picture,categorie:ingredient.categorie.name}))
 
     res.json({ result: true, data: formattedDatas })
 
@@ -37,7 +37,7 @@ router.get('/:categorie', async (req, res) => {
 /**
  *  Ajouter un ingrédient
  */
-router.post('/new', async (req, res) => {
+router.post('/', async (req, res) => {
 
     if (!checkBody(req.body, ['name', 'categorie'])) {
         return res.json({ result: false, error: "Champs manquants ou invalides" })
@@ -81,7 +81,7 @@ router.post('/new', async (req, res) => {
 /**
  *  Modifier un ingrédient
  */
-router.put('/edit/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
 
     if (!checkBody(req.body, ['name', 'categorie'])) {
         return res.json({ result: false, error: "Champs manquants ou invalides" })
@@ -92,21 +92,14 @@ router.put('/edit/:id', async (req, res) => {
     }
 
     // recup id
-    const categorie = await IngredientCategorie.findOne({ name: req.body.name })
+    const categorie = await IngredientCategorie.findOne({ name: req.body.categorie })
 
     if (!categorie) {
         return res.json({ result: false, error: "Catégorie inconnue" })
     }
 
-    const ingredient = await Ingredient.findByIdAndUpdate(req.params.id , { name: req.body.name,categorie:categorie._id },
-        function (err, docs) {
-            if (err){
-            console.log(err)
-            }
-            else{
-            console.log("Ingrédient modifié: ", docs);
-            }
-            });
+    const ingredient = await Ingredient.findByIdAndUpdate(req.params.id , { name: req.body.name,categorie:categorie._id })
+    
 
     const updateIngredient = await ingredient.save()
     if (updateIngredient) 
