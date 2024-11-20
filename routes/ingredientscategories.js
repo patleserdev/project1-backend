@@ -10,8 +10,9 @@ const IngredientCategorie = require('../models/ingredientsCategories');
 router.get('/', async (req, res) => {
 
     const categories = await IngredientCategorie.find({})
-
-    res.json({ result: true, data: categories })
+    const formattedDatas=[]
+    categories.map((categorie)=> formattedDatas.push({id:categorie._id,name: categorie.name,description	:categorie.description}))
+    res.json({ result: true, data: formattedDatas })
 
 })
 

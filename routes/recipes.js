@@ -11,7 +11,10 @@ router.get('/', async (req, res) => {
 
     const recipes = await Recipe.find({})
 
-    res.json({ result: true, data: recipes })
+    const formattedDatas=[]
+    recipes.map((recipe)=> formattedDatas.push({id:recipe._id,name: recipe.name,unit:recipe.unit}))
+    res.json({ result: true, data: formattedDatas })
+
 
 })
 

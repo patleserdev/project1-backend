@@ -116,14 +116,16 @@ router.put('/:id', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
 
-    await Ingredient.findByIdAndDelete(req.params.id, function (error, doc) {
-        if (error) {
-            res.json({ result: false, error: err })
-        }
-        else {
-            res.json({ result: true })
-        }
-    });
+    const response = await Ingredient.findByIdAndDelete(req.params.id);
+
+    if (response)
+    {
+        res.json({result:true})
+    }
+    else
+    {
+        res.json({result:false})
+    }
 
 })
 

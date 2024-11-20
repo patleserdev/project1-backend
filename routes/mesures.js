@@ -12,8 +12,10 @@ const Mesure = require('../models/mesures');
 router.get('/', async (req, res) => {
 
     const mesures = await Mesure.find({})
+    const formattedDatas=[]
+    mesures.map((mesure)=> formattedDatas.push({id:mesure._id,name: mesure.name,unit:mesure.unit}))
+    res.json({ result: true, data: formattedDatas })
 
-    res.json({ result: true, data: mesures })
 
 })
 
